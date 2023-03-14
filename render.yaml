@@ -4,7 +4,7 @@ services:
   env: python
   repo: https://github.com/charley12009/chatrecipe.git
   buildCommand: cd examples/flask-echo;pip install gunicorn -r requirements.txt
-  startCommand: gunicorn app:chatrecipe(api_line)
+  startCommand: gunicorn app:chatrecipe
   plan: free
   autoDeploy: false
   envVars:
