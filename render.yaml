@@ -4,7 +4,7 @@ services:
   env: python
   repo: https://github.com/charley12009/chatrecipe.git
   buildCommand: pip install -r requirements.txt
-  startCommand: gunicorn app:app
+  startCommand: cd examples;gunicorn app:app
   plan: free
   autoDeploy: false
   envVars:
