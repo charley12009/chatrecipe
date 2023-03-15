@@ -3,7 +3,7 @@ services:
   name: line-bot-python-flask
   env: python
   repo: https://github.com/charley12009/chatrecipe.git
-  buildCommand: pip install -r requirements.txt
+  buildCommand: cd examples;pip install gunicorn -r requirements.txt
   startCommand: cd examples;gunicorn app:app
   plan: free
   autoDeploy: false
