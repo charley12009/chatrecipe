@@ -15,7 +15,7 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: "+body)
     try:
-        handler.handle(body,signature)
+        events = handler.handle(body,signature)
     except:
         print("Invalid sugnature, Please check yoy channel access token/channel secret")
         abort(400)
