@@ -25,7 +25,7 @@ def callback():
             continue
         if not isinstance(event.message, TextMessage):
             continue
-        prompt=event.message.text
+        
         def generate_answer(prompt):
             print('菜單或食譜生成中，請稍候...')
             response = openai.Completion.create(
@@ -45,7 +45,7 @@ def callback():
         prev_answer = ""  # 初始化之前的答案為空
 
         while True:
-            prompt = input("請輸入您的問題（或輸入 q 結束程式）：")
+            prompt=event.message.text
        #prompt+='請用繁體中文回答'
             if prompt == "q":
                 break
@@ -60,7 +60,7 @@ def callback():
     
             end_time = time.time()  # 記錄結束時間
             elapsed_time = end_time - start_time  # 計算花費的時間
-            print(f'花費時間{elapsed_time}')
+            #print(f'花費時間{elapsed_time}')
             prev_answer = answer
        #print(answer)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
