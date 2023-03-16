@@ -1,13 +1,13 @@
 import openai
 import time
 from flask import Flask,request,abort
-from linebot import LineBotApi,WebhookHandler
+from linebot import LineBotApi,WebhookParser
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent,TextMessage,TextSendMessage
 from argparse import ArgumentParser
 app = Flask(__name__)
 line_bot_api = LineBotApi('+7yuhcMAoKKgtTNHkvBZDp58T0kRkTj5BHSf1xcPhEezjBDr7p2+akYlDQJsZB1t77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHD7oApBOP102duL4DiuSm49DruxSKI3dOdtHZ1RjIJMYwdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('6bf3923734819f11b70abf9d4fcff387')
+parser = WebhookParser('6bf3923734819f11b70abf9d4fcff387')
 openai.api_key = "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"
 @app.route("/callback",methods=['POST'])
 def callback():
@@ -15,7 +15,7 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: "+body)
     try:
-        events = handler.handle(body,signature)
+        events = parser.parse(body,signature)
     except:
         print("Invalid sugnature, Please check yoy channel access token/channel secret")
         abort(400)
