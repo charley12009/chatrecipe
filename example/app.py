@@ -22,7 +22,7 @@ def callback():
     return 'OK'
 @handler.add(MessageEvent,message=TextMessage)
 def hanle_message(event):
-    #return "OK"
+    return "OK"
     prompt=event.message.text
     def generate_answer(prompt):
         print('菜單或食譜生成中，請稍候...')
