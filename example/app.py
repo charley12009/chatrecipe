@@ -19,89 +19,57 @@ def callback():
     except:
         print("Invalid sugnature, Please check yoy channel access token/channel secret")
         abort(400)
+    # if event is MessageEvent and message is TextMessage, then echo text
+    for event in events:
+        if not isinstance(event, MessageEvent):
+            continue
+        if not isinstance(event.message, TextMessage):
+            continue
+        prompt=event.message.text
+        def generate_answer(prompt):
+            print('菜單或食譜生成中，請稍候...')
+            response = openai.Completion.create(
+                model="text-davinci-003",        
+                prompt=prompt+'請用繁體中文，不要空行',
+                temperature=0.1, #生成文字的多樣性，0~1，值越大，生成速度越慢
+                max_tokens=1024, #輸出最多字數
+                n=1,
+                stop=None,
+                echo=False,
+                presence_penalty=0.5,
+                top_p=0.1,
+            )
+            answer = response.choices[0].text.replace('\n\n', '\n')  
+            return answer
+
+        prev_answer = ""  # 初始化之前的答案為空
+
+        while True:
+            prompt = input("請輸入您的問題（或輸入 q 結束程式）：")
+       #prompt+='請用繁體中文回答'
+            if prompt == "q":
+                break
+            if '菜單' in prompt:
+                prompt += '只要餐點名稱'
+            if '食譜' in prompt:
+                prompt += '輸出內容包括餐點名稱、材料、餐點做法，材料中要包含數量'
+       # 將之前的答案和新的問題結合作為新的prompt
+            prompt = f"{prev_answer} {prompt}"
+            start_time=time.time()
+            answer = generate_answer(prompt)
+    
+            end_time = time.time()  # 記錄結束時間
+            elapsed_time = end_time - start_time  # 計算花費的時間
+            print(f'花費時間{elapsed_time}')
+            prev_answer = answer
+       #print(answer)
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
     return 'OK'
 
-    prompt=event.message.text
-    def generate_answer(prompt):
-        print('菜單或食譜生成中，請稍候...')
-        response = openai.Completion.create(
-            model="text-davinci-003",        
-            prompt=prompt+'請用繁體中文，不要空行',
-            temperature=0.1, #生成文字的多樣性，0~1，值越大，生成速度越慢
-            max_tokens=1024, #輸出最多字數
-            n=1,
-            stop=None,
-            echo=False,
-            presence_penalty=0.5,
-            top_p=0.1,
-        )
-        answer = response.choices[0].text.replace('\n\n', '\n')  
-        return answer
-
-    prev_answer = ""  # 初始化之前的答案為空
-
-    while True:
-        prompt = input("請輸入您的問題（或輸入 q 結束程式）：")
-        #prompt+='請用繁體中文回答'
-        if prompt == "q":
-            break
-        if '菜單' in prompt:
-            prompt += '只要餐點名稱'
-        if '食譜' in prompt:
-            prompt += '輸出內容包括餐點名稱、材料、餐點做法，材料中要包含數量'
-        # 將之前的答案和新的問題結合作為新的prompt
-        prompt = f"{prev_answer} {prompt}"
-        start_time=time.time()
-        answer = generate_answer(prompt)
-    
-        end_time = time.time()  # 記錄結束時間
-        elapsed_time = end_time - start_time  # 計算花費的時間
-        print(f'花費時間{elapsed_time}')
-        prev_answer = answer
-        #print(answer)
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
 #@handler.add(MessageEvent,message=TextMessage)
 #def hanle_message(event):
 #    return "OK"
-#    prompt=event.message.text
-#    def generate_answer(prompt):
-#        print('菜單或食譜生成中，請稍候...')
-#        response = openai.Completion.create(
-#            model="text-davinci-003",        
-#            prompt=prompt+'請用繁體中文，不要空行',
-#            temperature=0.1, #生成文字的多樣性，0~1，值越大，生成速度越慢
-#            max_tokens=1024, #輸出最多字數
-#            n=1,
-#            stop=None,
-#            echo=False,
-#            presence_penalty=0.5,
-#            top_p=0.1,
-#        )
-#        answer = response.choices[0].text.replace('\n\n', '\n')  
-#        return answer
-#
-#    prev_answer = ""  # 初始化之前的答案為空
-
-#    while True:
-#        prompt = input("請輸入您的問題（或輸入 q 結束程式）：")
-        #prompt+='請用繁體中文回答'
-#        if prompt == "q":
-#            break
-#        if '菜單' in prompt:
-#            prompt += '只要餐點名稱'
-#        if '食譜' in prompt:
-#            prompt += '輸出內容包括餐點名稱、材料、餐點做法，材料中要包含數量'
-        # 將之前的答案和新的問題結合作為新的prompt
-#        prompt = f"{prev_answer} {prompt}"
-#        start_time=time.time()
-#        answer = generate_answer(prompt)
     
-#        end_time = time.time()  # 記錄結束時間
-#        elapsed_time = end_time - start_time  # 計算花費的時間
-#        print(f'花費時間{elapsed_time}')
-#        prev_answer = answer
-        #print(answer)
-#        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
         #return "OK"
         #print('上述建議僅供參考，可依個人需求調整')
         # 將新的回答作為之前的答案，供下一次迭代使用
