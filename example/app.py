@@ -8,7 +8,7 @@ from argparse import ArgumentParser
 app = Flask(__name__)
 line_bot_api = LineBotApi('+7yuhcMAoKKgtTNHkvBZDp58T0kRkTj5BHSf1xcPhEezjBDr7p2+akYlDQJsZB1t77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHD7oApBOP102duL4DiuSm49DruxSKI3dOdtHZ1RjIJMYwdB04t89/1O/w1cDnyilFU=')
 parser = WebhookParser('6bf3923734819f11b70abf9d4fcff387')
-openai.api_key = "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"
+openai.api_key = "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"
 @app.route("/callback",methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
