@@ -79,9 +79,9 @@ def message_text(event):
         prev_answer = answer
        #print(answer)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
-    #return 'OK'
+    return 'OK'
 
-        return "OK"
+        #return "OK"
         #print('上述建議僅供參考，可依個人需求調整')
         # 將新的回答作為之前的答案，供下一次迭代使用
         
