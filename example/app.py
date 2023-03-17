@@ -10,10 +10,10 @@ import sys
 app = Flask(__name__)
 
 
-#line_bot_api = LineBotApi('DDaU36i0rAtuGKLdiHToihqW1/uUiNccZCZ93CjFe2UU5OJzGlUJL17L6cIfDRaA77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCdoWbxC2/GTUpWRMleLVdmtBOOOJhBxWWUwrIusYFZiAdB04t89/1O/w1cDnyilFU=')
-#handler = WebhookHandler('6bf3923734819f11b70abf9d4fcff387')
-channel_secret = os.getenv('681c0d150a8a7aac1b5cf2bf5507848d',None)
-channel_access_token = os.getenv('DDaU36i0rAtuGKLdiHToihqW1/uUiNccZCZ93CjFe2UU5OJzGlUJL17L6cIfDRaA77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCdoWbxC2/GTUpWRMleLVdmtBOOOJhBxWWUwrIusYFZiAdB04t89/1O/w1cDnyilFU=',None)
+line_bot_api = LineBotApi('DDaU36i0rAtuGKLdiHToihqW1/uUiNccZCZ93CjFe2UU5OJzGlUJL17L6cIfDRaA77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCdoWbxC2/GTUpWRMleLVdmtBOOOJhBxWWUwrIusYFZiAdB04t89/1O/w1cDnyilFU=')
+handler = WebhookHandler('6bf3923734819f11b70abf9d4fcff387')
+#channel_secret = os.getenv('681c0d150a8a7aac1b5cf2bf5507848d',None)
+#channel_access_token = os.getenv('DDaU36i0rAtuGKLdiHToihqW1/uUiNccZCZ93CjFe2UU5OJzGlUJL17L6cIfDRaA77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCdoWbxC2/GTUpWRMleLVdmtBOOOJhBxWWUwrIusYFZiAdB04t89/1O/w1cDnyilFU=',None)
 #if channel_secret is None:
 #    print('Specify LINE_CHANNEL_SECRET as environment variable.')
 #    sys.exit(1)
@@ -21,8 +21,8 @@ channel_access_token = os.getenv('DDaU36i0rAtuGKLdiHToihqW1/uUiNccZCZ93CjFe2UU5O
 #    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
 #    sys.exit(1)
 
-line_bot_api = LineBotApi(channel_access_token)
-handler = WebhookHandler(channel_secret)
+#line_bot_api = LineBotApi(channel_access_token)
+#handler = WebhookHandler(channel_secret)
 
 openai.api_key = "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"
 
@@ -89,7 +89,7 @@ if __name__ == "__main__":
     arg_parser = ArgumentParser(
         usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'
     )
-    arg_parser.add_argument('-p', '--port', type=int, default=8000, help='port')
+    arg_parser.add_argument('-p', '--port', type=int, default=5000, help='port')
     arg_parser.add_argument('-d', '--debug', default=False, help='debug')
     options = arg_parser.parse_args()
 
