@@ -80,7 +80,7 @@ def message_text(event):
         prev_answer = answer
        #print(answer)
         #if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(answer))
     #return 'OK'
 
         #return "OK"
