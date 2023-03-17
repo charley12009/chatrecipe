@@ -5,10 +5,24 @@ from linebot import LineBotApi,WebhookParser
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent,TextMessage,TextSendMessage
 from argparse import ArgumentParser
+import os
+import sys
 app = Flask(__name__)
-line_bot_api = LineBotApi('+7yuhcMAoKKgtTNHkvBZDp58T0kRkTj5BHSf1xcPhEezjBDr7p2+akYlDQJsZB1t77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHD7oApBOP102duL4DiuSm49DruxSKI3dOdtHZ1RjIJMYwdB04t89/1O/w1cDnyilFU=')
-parser = WebhookParser('6bf3923734819f11b70abf9d4fcff387')
+channel_secret = os.getenv('6bf3923734819f11b70abf9d4fcff387',None)
+channel_access_token = os.getenv('+7yuhcMAoKKgtTNHkvBZDp58T0kRkTj5BHSf1xcPhEezjBDr7p2+akYlDQJsZB1t77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHD7oApBOP102duL4DiuSm49DruxSKI3dOdtHZ1RjIJMYwdB04t89/1O/w1cDnyilFU=',None)
+#line_bot_api = LineBotApi('+7yuhcMAoKKgtTNHkvBZDp58T0kRkTj5BHSf1xcPhEezjBDr7p2+akYlDQJsZB1t77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHD7oApBOP102duL4DiuSm49DruxSKI3dOdtHZ1RjIJMYwdB04t89/1O/w1cDnyilFU=')
+#parser = WebhookParser('6bf3923734819f11b70abf9d4fcff387')
+if channel_secret is None:
+    print('Specify LINE_CHANNEL_SECRET as environment variable.')
+    sys.exit(1)
+if channel_access_token is None:
+    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
+    sys.exit(1)
+
+line_bot_api = LineBotApi(channel_access_token)
+parser = WebhookParser(channel_secret)
 openai.api_key = "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"
+
 @app.route("/callback",methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -19,6 +33,7 @@ def callback():
     except:
         print("Invalid sugnature, Please check yoy channel access token/channel secret")
         abort(400)
+
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
         if not isinstance(event, MessageEvent):
@@ -74,7 +89,6 @@ def callback():
         #print('上述建議僅供參考，可依個人需求調整')
         # 將新的回答作為之前的答案，供下一次迭代使用
         
-import os
 if __name__ == "__main__":
     arg_parser = ArgumentParser(
         usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'
