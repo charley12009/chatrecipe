@@ -79,9 +79,9 @@ def message_text(event):
         #print(f'花費時間{elapsed_time}')
         prev_answer = answer
        #print(answer)
-        if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
-    return 'OK'
+        #if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
+    #return 'OK'
 
         #return "OK"
         #print('上述建議僅供參考，可依個人需求調整')
