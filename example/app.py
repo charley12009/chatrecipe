@@ -32,10 +32,11 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: "+body)
     try:
-        events = handler.handle(body,signature)
+        handler.handle(body,signature)
     except:
         print("Invalid sugnature, Please check yoy channel access token/channel secret")
         abort(400)
+    return 'OK'
 
 @handler.add(MessageEvent,message=TextMessage)
 def message_text(event):
@@ -78,7 +79,7 @@ def message_text(event):
         prev_answer = answer
        #print(answer)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
-    return 'OK'
+    #return 'OK'
 
         #return "OK"
         #print('上述建議僅供參考，可依個人需求調整')
