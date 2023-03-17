@@ -10,7 +10,7 @@ import sys
 app = Flask(__name__)
 
 
-line_bot_api = LineBotApi('DDaU36i0rAtuGKLdiHToihqW1/uUiNccZCZ93CjFe2UU5OJzGlUJL17L6cIfDRaA77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCdoWbxC2/GTUpWRMleLVdmtBOOOJhBxWWUwrIusYFZiAdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('9ekcCknLR58lCbAxpBv16tnoKi1t18IgMcuKbCRfAOx5lnsxnXbM/z68y4B90IlT77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCO7mnKidC/XQ9eoTtroHpiL6UVyNiCT/rCBIhSYKzPkwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('6bf3923734819f11b70abf9d4fcff387')
 #channel_secret = os.getenv('681c0d150a8a7aac1b5cf2bf5507848d',None)
 #channel_access_token = os.getenv('DDaU36i0rAtuGKLdiHToihqW1/uUiNccZCZ93CjFe2UU5OJzGlUJL17L6cIfDRaA77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCdoWbxC2/GTUpWRMleLVdmtBOOOJhBxWWUwrIusYFZiAdB04t89/1O/w1cDnyilFU=',None)
