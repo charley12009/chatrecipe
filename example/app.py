@@ -8,19 +8,10 @@ from argparse import ArgumentParser
 import os
 import sys
 app = Flask(__name__)
-channel_secret = os.getenv('6bf3923734819f11b70abf9d4fcff387',None)
-channel_access_token = os.getenv('+7yuhcMAoKKgtTNHkvBZDp58T0kRkTj5BHSf1xcPhEezjBDr7p2+akYlDQJsZB1t77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHD7oApBOP102duL4DiuSm49DruxSKI3dOdtHZ1RjIJMYwdB04t89/1O/w1cDnyilFU=',None)
-#line_bot_api = LineBotApi('+7yuhcMAoKKgtTNHkvBZDp58T0kRkTj5BHSf1xcPhEezjBDr7p2+akYlDQJsZB1t77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHD7oApBOP102duL4DiuSm49DruxSKI3dOdtHZ1RjIJMYwdB04t89/1O/w1cDnyilFU=')
-#parser = WebhookParser('6bf3923734819f11b70abf9d4fcff387')
-if channel_secret is None:
-    print('Specify LINE_CHANNEL_SECRET as environment variable.')
-    sys.exit(1)
-if channel_access_token is None:
-    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
-    sys.exit(1)
 
-line_bot_api = LineBotApi(channel_access_token)
-parser = WebhookHandler(channel_secret)
+
+line_bot_api = LineBotApi("DDaU36i0rAtuGKLdiHToihqW1/uUiNccZCZ93CjFe2UU5OJzGlUJL17L6cIfDRaA77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCdoWbxC2/GTUpWRMleLVdmtBOOOJhBxWWUwrIusYFZiAdB04t89/1O/w1cDnyilFU=")
+handler = WebhookHandler("6bf3923734819f11b70abf9d4fcff387")
 openai.api_key = "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"
 
 @app.route("/callback",methods=['POST'])
@@ -29,15 +20,11 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: "+body)
     try:
-        events = parser.parse(body,signature)
+        events = handler.handle(body,signature)
     except:
         print("Invalid sugnature, Please check yoy channel access token/channel secret")
         abort(400)
 
-   
-    
-        
-        
 @handler.add(MessageEvent,message=TextMessage)
 def message_text(event):
     return "OK"
