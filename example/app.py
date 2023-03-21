@@ -58,10 +58,11 @@ def message_text(event):
         answer = response.choices[0].text.replace('\n\n', '\n')  
         return answer
 
-        prev_answer = ""  # 初始化之前的答案為空
+        
 
     while True:
         prompt=event.message.text
+        prev_answer = ""  # 初始化之前的答案為空
         #prompt+='請用繁體中文回答'
         if prompt == "q":
             break
