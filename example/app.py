@@ -7,7 +7,6 @@ from linebot.models import MessageEvent,TextMessage,TextSendMessage
 from argparse import ArgumentParser
 import os
 import sys
-import json
 app = Flask(__name__)
 
 
@@ -80,8 +79,8 @@ def message_text(event):
         #print(f'花費時間{elapsed_time}')
         prev_answer = answer
        #print(answer)
-        message = json.dumps(answer)
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(message))
+        if event.source.user_id != "U1df0b1870f9fd24fb2b2871cf95d4ca7":
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(answer))
     #return 'OK'
 
         #return "OK"
