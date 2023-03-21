@@ -79,8 +79,11 @@ def message_text(event):
         #print(f'花費時間{elapsed_time}')
         prev_answer = answer
        #print(answer)
-        #if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(answer))
+        message = {
+            "type":"text",
+            "text":answer
+            }
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(message))
     #return 'OK'
 
         #return "OK"
