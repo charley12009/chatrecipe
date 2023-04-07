@@ -24,7 +24,7 @@ handler = WebhookHandler('681c0d150a8a7aac1b5cf2bf5507848d')
 #line_bot_api = LineBotApi(channel_access_token)
 #handler = WebhookHandler(channel_secret)
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 @app.route("/callback",methods=['POST'])
 def callback():
