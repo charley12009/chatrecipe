@@ -70,32 +70,21 @@ def message_text(event):
             prompt += '只要餐點名稱'
         if '食譜' in prompt:
             prompt += '輸出內容包括餐點名稱、材料、餐點做法，材料中要包含數量'
-       # 將之前的答案和新的問題結合作為新的prompt
-        prompt = f"{prev_answer} {prompt}"
-        start_time=time.time()
-        answer = generate_answer(prompt)
+       
+        if prompt == '@開始使用':
+            resp = request.get('https://liff.line.me/1660962601-rleaDYeB')
+            currency_data = resp.json()
+            # 將之前的答案和新的問題結合作為新的prompt
+            prompt = f"{prev_answer} {prompt}"
+            start_time=time.time()
+            answer = generate_answer(prompt)
     
-        end_time = time.time()  # 記錄結束時間
-        elapsed_time = end_time - start_time  # 計算花費的時間
+            end_time = time.time()  # 記錄結束時間
+            elapsed_time = end_time - start_time  # 計算花費的時間
         #print(f'花費時間{elapsed_time}')
-        prev_answer = answer
-       #print(answer)
-        #if event.source.user_id != "U1df0b1870f9fd24fb2b2871cf95d4ca7":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
-    #return 'OK'
-
-        #return "OK"
-        #print('上述建議僅供參考，可依個人需求調整')
-        # 將新的回答作為之前的答案，供下一次迭代使用
+            prev_answer = answer
+      
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
         
 if __name__ == "__main__":
-    
-        #arg_parser = ArgumentParser(
-    #    usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'
-    #)
-    #arg_parser.add_argument('-p', '--port', type=int, default=5000, help='port')
-    #arg_parser.add_argument('-d', '--debug', default=False, help='debug')
-    #options = arg_parser.parse_args()
-
     app.run()
-    #debug=options.debug, port=options.port
