@@ -9,21 +9,8 @@ import os
 import sys
 app = Flask(__name__)
 
-
 line_bot_api = LineBotApi('9ekcCknLR58lCbAxpBv16tnoKi1t18IgMcuKbCRfAOx5lnsxnXbM/z68y4B90IlT77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCO7mnKidC/XQ9eoTtroHpiL6UVyNiCT/rCBIhSYKzPkwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('681c0d150a8a7aac1b5cf2bf5507848d')
-#channel_secret = os.getenv('681c0d150a8a7aac1b5cf2bf5507848d',None)
-#channel_access_token = os.getenv('DDaU36i0rAtuGKLdiHToihqW1/uUiNccZCZ93CjFe2UU5OJzGlUJL17L6cIfDRaA77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCdoWbxC2/GTUpWRMleLVdmtBOOOJhBxWWUwrIusYFZiAdB04t89/1O/w1cDnyilFU=',None)
-#if channel_secret is None:
-#    print('Specify LINE_CHANNEL_SECRET as environment variable.')
-#    sys.exit(1)
-#if channel_access_token is None:
-#    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
-#    sys.exit(1)
-
-#line_bot_api = LineBotApi(channel_access_token)
-#handler = WebhookHandler(channel_secret)
-
 openai.api_key = "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"
 
 @app.route("/callback",methods=['POST'])
@@ -58,8 +45,6 @@ def message_text(event):
         answer = response.choices[0].text.replace('\n\n', '\n')  
         return answer
 
-        
-
     while True:
         prompt=event.message.text
         prev_answer = ""  # 初始化之前的答案為空
@@ -70,21 +55,17 @@ def message_text(event):
             prompt += '只要餐點名稱'
         if '食譜' in prompt:
             prompt += '輸出內容包括餐點名稱、材料、餐點做法，材料中要包含數量'
-       
-        if prompt == '@開始使用':
-            resp = request.get('https://liff.line.me/1660962601-rleaDYeB')
-            currency_data = resp.json()
-            # 將之前的答案和新的問題結合作為新的prompt
-            prompt = f"{prev_answer} {prompt}"
-            start_time=time.time()
-            answer = generate_answer(prompt)
+       # 將之前的答案和新的問題結合作為新的prompt
+        prompt = f"{prev_answer} {prompt}"
+        start_time=time.time()
+        answer = generate_answer(prompt)
     
-            end_time = time.time()  # 記錄結束時間
-            elapsed_time = end_time - start_time  # 計算花費的時間
-        #print(f'花費時間{elapsed_time}')
-            prev_answer = answer
-      
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
+        end_time = time.time()  # 記錄結束時間
+        elapsed_time = end_time - start_time  # 計算花費的時間
+        
+        prev_answer = answer
+       
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
         
 if __name__ == "__main__":
     app.run()
