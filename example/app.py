@@ -34,7 +34,7 @@ def message_text(event):
         response = openai.Completion.create(
             model="text-davinci-003",        
             prompt=prompt+'請用繁體中文，不要空行',
-            temperature=0.1, #生成文字的多樣性，0~1，值越大，生成速度越慢
+            temperature=0.3, #生成文字的多樣性，0~1，值越大，生成速度越慢
             max_tokens=1024, #輸出最多字數
             n=1,
             stop=None,
@@ -48,7 +48,7 @@ def message_text(event):
     while True:
         prompt=event.message.text
         if prompt == '@查詢當前食譜':
-            prompt='請給我剛剛菜單的食譜'
+            prompt='請給我當前菜單的所有食譜'
         prev_answer = ""  # 初始化之前的答案為空
         #prompt+='請用繁體中文回答'
         if prompt == "q":
