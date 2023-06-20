@@ -47,6 +47,8 @@ def message_text(event):
 
     while True:
         prompt=event.message.text
+        if prompt == '@查詢當前食譜':
+            prompt='請給我剛剛菜單的食譜'
         prev_answer = ""  # 初始化之前的答案為空
         #prompt+='請用繁體中文回答'
         if prompt == "q":
