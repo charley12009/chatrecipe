@@ -56,7 +56,7 @@ def message_text(event):
             prompt += '只要餐點名稱'
         if '食譜' in prompt:
             prompt += '輸出內容包括餐點名稱、材料、餐點做法，材料中要包含數量'
-        if prompt == '@查詢當前食譜':
+        if '@查詢當前食譜' in prompt:
             prompt='請給我剛剛菜單中所有餐點的所有食譜'
        # 將之前的答案和新的問題結合作為新的prompt
         prompt = f"{prev_answer} {prompt}"
