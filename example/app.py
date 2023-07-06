@@ -57,7 +57,9 @@ def message_text(event):
         if '食譜' in prompt:
             prompt += '輸出內容包括餐點名稱、材料、餐點做法，材料中要包含數量'
         if '@查詢當前食譜' in prompt:
-            prompt='請給我剛剛菜單中所有餐點的所有食譜'
+            answer='使用說明: \nex:想知道牛肉麵的食譜，請輸入"請給我牛肉麵的食譜"'
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
+            break
        # 將之前的答案和新的問題結合作為新的prompt
         prompt = f"{prev_answer} {prompt}"
         start_time=time.time()
