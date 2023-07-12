@@ -93,9 +93,10 @@ def message_text(event):
        # 將之前的答案和新的問題結合作為新的prompt
         prompt = f"{prev_answer} {prompt}"
         answer = generate_answer(prompt)
-        answers=f'{answer}\n{results}'
+        # answers=f'{answer}\n{results}'
         prev_answer = answer
-        if results is True:
+        if results is not None:
+            answers=f'{answer}\n{results[0]}'
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answers))
         else:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
