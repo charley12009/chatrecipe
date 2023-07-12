@@ -3,3 +3,4 @@ flask
 openai
 beautifulsoup4
 google
+googlesearch-python
