@@ -1,13 +1,11 @@
-import openai
-import time
+import openai,time,os,sys,functools
 from flask import Flask,request,abort
 from linebot import LineBotApi,WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent,TextMessage,TextSendMessage
 from argparse import ArgumentParser
-import os
-import sys,re
 from googlesearch import search
+
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('9ekcCknLR58lCbAxpBv16tnoKi1t18IgMcuKbCRfAOx5lnsxnXbM/z68y4B90IlT77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCO7mnKidC/XQ9eoTtroHpiL6UVyNiCT/rCBIhSYKzPkwdB04t89/1O/w1cDnyilFU=')
@@ -36,6 +34,10 @@ def extract_keywords(input_text):
         return keywords[0]
     else:
         return None
+
+@functools.lru_cache(maxsize=None)
+def cached_search(query, num_results):
+    return search(query, num_results)
 
 @handler.add(MessageEvent,message=TextMessage)
 def message_text(event):
@@ -86,7 +88,7 @@ def message_text(event):
 
         if '請給我' in prompt and '的食譜' in prompt:
             search_txt=extract_keywords(prompt)
-            url=search(search_txt)
+            url = cached_search(search_txt, num_results=1)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=url))
 
         
