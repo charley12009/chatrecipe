@@ -72,26 +72,19 @@ def message_text(event):
             answer='使用說明: \nex:想知道牛肉麵的食譜，請輸入"請給我牛肉麵的食譜"'
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
             break
-        
-            
 
        # 將之前的答案和新的問題結合作為新的prompt
         prompt = f"{prev_answer} {prompt}"
-        start_time=time.time()
         answer = generate_answer(prompt)
-    
-        end_time = time.time()  # 記錄結束時間
-        elapsed_time = end_time - start_time  # 計算花費的時間
         
         prev_answer = answer
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
 
         if '請給我' in prompt and '的食譜' in prompt:
             search_txt=extract_keywords(prompt)
-            url = cached_search(search_txt, num_results=1)
+            urls = cached_search(search_txt, num_results=1)
+            url = next(urls, None)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=url))
-
-        
         
 if __name__ == "__main__":
     app.run()
