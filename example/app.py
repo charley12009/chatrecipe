@@ -1,4 +1,4 @@
-import openai,time,os,sys,functools,re
+import openai,time,os,sys,functools,re,requests
 from flask import Flask,request,abort
 from linebot import LineBotApi,WebhookHandler
 from linebot.exceptions import InvalidSignatureError
