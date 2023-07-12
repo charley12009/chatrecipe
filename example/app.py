@@ -87,7 +87,7 @@ def message_text(event):
             break
         if '請給我' in prompt and '的食譜' in prompt:
             search_txt=extract_keywords(prompt)
-            results = search_google(query)
+            results = search_google(search_txt)
             for result in results:
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=result))
             
