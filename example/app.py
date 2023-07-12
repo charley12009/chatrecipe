@@ -34,10 +34,23 @@ def extract_keywords(input_text):
         return keywords[0]
     else:
         return None
+def search_google(query):
+    api_key = "AIzaSyC3yoM21TBUKFKi8gomCCZK02M4GnFNIYE"  # 請換成您的 Google API 金鑰
+    search_engine_id = "e3c44cc5ddf4041f3"  # 請換成您的 Custom Search Engine ID
 
-@functools.lru_cache(maxsize=None)
-def cached_search(query, num_results):
-    return search(query, num_results)
+    url = f"https://www.googleapis.com/customsearch/v1?key={api_key}&cx={search_engine_id}&q={query}"
+    response = requests.get(url)
+    results = response.json()
+
+    search_results = []
+    if "items" in results:
+        for item in results["items"]:
+            search_results.append(item["link"])
+
+    return search_results
+# @functools.lru_cache(maxsize=None)
+# def cached_search(query, num_results):
+#     return search(query, num_results)
 
 @handler.add(MessageEvent,message=TextMessage)
 def message_text(event):
@@ -74,9 +87,10 @@ def message_text(event):
             break
         if '請給我' in prompt and '的食譜' in prompt:
             search_txt=extract_keywords(prompt)
-            urls = cached_search(search_txt, num_results=1)
-            url = next(urls, None)
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=str(url)))
+            results = search_google(query)
+            for result in results:
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=result))
+            
        # 將之前的答案和新的問題結合作為新的prompt
         prompt = f"{prev_answer} {prompt}"
         answer = generate_answer(prompt)
