@@ -90,7 +90,7 @@ def message_text(event):
             search_txt=extract_keywords(prompt)
             results = search_google(search_txt)
             for result in results:
-                search_result.append(result)
+                search_result.append(results)
             
        # 將之前的答案和新的問題結合作為新的prompt
         prompt = f"{prev_answer} {prompt}"
