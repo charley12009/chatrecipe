@@ -89,17 +89,16 @@ def message_text(event):
         if '請給我' in prompt and '的食譜' in prompt:
             search_txt=extract_keywords(prompt)
             results = search_google(search_txt)
+            answer = generate_answer(prompt)
+            answers=f'{answer}\n{results[0]}'
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answers))
             
        # 將之前的答案和新的問題結合作為新的prompt
         prompt = f"{prev_answer} {prompt}"
         answer = generate_answer(prompt)
         # answers=f'{answer}\n{results}'
         prev_answer = answer
-        if results is not None:
-            answers=f'{answer}\n{results[0]}'
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answers))
-        else:
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
                
 if __name__ == "__main__":
     app.run()
