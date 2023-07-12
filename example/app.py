@@ -6,7 +6,8 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent,TextMessage,TextSendMessage
 from argparse import ArgumentParser
 import os
-import sys
+import sys,re
+from googlesearch import search
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('9ekcCknLR58lCbAxpBv16tnoKi1t18IgMcuKbCRfAOx5lnsxnXbM/z68y4B90IlT77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCO7mnKidC/XQ9eoTtroHpiL6UVyNiCT/rCBIhSYKzPkwdB04t89/1O/w1cDnyilFU=')
@@ -25,6 +26,16 @@ def callback():
         print("Invalid sugnature, Please check yoy channel access token/channel secret")
         abort(400)
     return 'OK'
+
+def extract_keywords(input_text):
+    # 在输入文本中查找匹配的关键词
+    keywords = re.findall(r'請給我(.*?)的食譜', input_text)
+
+    # 如果找到了关键词，返回第一个匹配结果
+    if keywords:
+        return keywords[0]
+    else:
+        return None
 
 @handler.add(MessageEvent,message=TextMessage)
 def message_text(event):
@@ -46,8 +57,7 @@ def message_text(event):
         return answer
 
     while True:
-        prompt=event.message.text
-        
+        prompt=event.message.text        
         prev_answer = ""  # 初始化之前的答案為空
         #prompt+='請用繁體中文回答'
         if prompt == "q":
@@ -60,6 +70,9 @@ def message_text(event):
             answer='使用說明: \nex:想知道牛肉麵的食譜，請輸入"請給我牛肉麵的食譜"'
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
             break
+        
+            
+
        # 將之前的答案和新的問題結合作為新的prompt
         prompt = f"{prev_answer} {prompt}"
         start_time=time.time()
@@ -69,8 +82,14 @@ def message_text(event):
         elapsed_time = end_time - start_time  # 計算花費的時間
         
         prev_answer = answer
-       
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
+
+        if '請給我' in prompt and '的食譜' in prompt:
+            search_txt=extract_keywords(prompt)
+            url=search(search_txt)
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=url))
+
+        
         
 if __name__ == "__main__":
     app.run()
