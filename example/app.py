@@ -55,6 +55,7 @@ def search_google(query):
 @handler.add(MessageEvent,message=TextMessage)
 def message_text(event):
     #return "OK"
+    search_result=[]
     def generate_answer(prompt):
         print('菜單或食譜生成中，請稍候...')
         response = openai.Completion.create(
@@ -89,7 +90,7 @@ def message_text(event):
             search_txt=extract_keywords(prompt)
             results = search_google(search_txt)
             for result in results:
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=result))
+                search_result.append(result)
             
        # 將之前的答案和新的問題結合作為新的prompt
         prompt = f"{prev_answer} {prompt}"
@@ -97,12 +98,10 @@ def message_text(event):
         
         prev_answer = answer
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
-
-        # if '請給我' in prompt and '的食譜' in prompt:
-        #     search_txt=extract_keywords(prompt)
-        #     urls = cached_search(search_txt, num_results=1)
-        #     url = next(urls, None)
-        #     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=url))
-        
+    if search_result:
+        for result in search_result:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=result))
+            search_result=[]
+               
 if __name__ == "__main__":
     app.run()
