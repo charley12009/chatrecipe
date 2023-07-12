@@ -89,8 +89,6 @@ def message_text(event):
         if '請給我' in prompt and '的食譜' in prompt:
             search_txt=extract_keywords(prompt)
             results = search_google(search_txt)
-            for result in results:
-                search_result.append(results)
             
        # 將之前的答案和新的問題結合作為新的prompt
         prompt = f"{prev_answer} {prompt}"
@@ -100,7 +98,7 @@ def message_text(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
     if search_result:
         for result in search_result:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=result))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=results))
 
                
 if __name__ == "__main__":
