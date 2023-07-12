@@ -96,9 +96,7 @@ def message_text(event):
         
         prev_answer = answer
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=answer))
-    if search_result:
-        for result in search_result:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=results))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=results))
 
                
 if __name__ == "__main__":
