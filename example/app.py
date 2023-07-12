@@ -75,7 +75,7 @@ def message_text(event):
         if '請給我' in prompt and '的食譜' in prompt:
             search_txt=extract_keywords(prompt)
             urls = cached_search(search_txt, num_results=1)
-            url = next(iter(urls), None)
+            url = next(urls, None)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=str(url)))
        # 將之前的答案和新的問題結合作為新的prompt
         prompt = f"{prev_answer} {prompt}"
