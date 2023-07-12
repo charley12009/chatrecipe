@@ -101,7 +101,7 @@ def message_text(event):
     if search_result:
         for result in search_result:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=result))
-        search_result=[]
+
                
 if __name__ == "__main__":
     app.run()
