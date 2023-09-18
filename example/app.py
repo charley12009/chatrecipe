@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 line_bot_api = LineBotApi('9ekcCknLR58lCbAxpBv16tnoKi1t18IgMcuKbCRfAOx5lnsxnXbM/z68y4B90IlT77kzGMTfmh7XqjHJ4R//BlpWGcniwRSjRIwg6hfhGHCO7mnKidC/XQ9eoTtroHpiL6UVyNiCT/rCBIhSYKzPkwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('681c0d150a8a7aac1b5cf2bf5507848d')
-openai.api_key = "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"
+openai.api_key = "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"
 
 @app.route("/callback",methods=['POST'])
 def callback():
